@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path'; 
+import { Link } from './link/entities/link.entity';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { join } from 'path';
         path: join(process.cwd(), 'src/graphql.ts'),
       },
     }),
+    TypeOrmModule.forFeature([Link])
   ],
   controllers: [AppController],
   providers: [AppService],
