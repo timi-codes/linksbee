@@ -1,0 +1,18 @@
+
+type Link {
+  bee_id: String
+  name: String
+  original_url: String
+  expires_at: String
+  last_visited_at: String
+  created_at: String
+  updated_at: String
+}
+
+type Query {
+  getLink: Link
+}
+
+type Mutation {
+  shorten(url: String!): Link
+}
