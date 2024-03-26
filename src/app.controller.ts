@@ -8,7 +8,6 @@ export class AppController {
   @Get(":id")
   @Redirect()
   async redirect(@Param('id') id: string) {
-
     const { original_url } = await this.appService.redirect(id);
     return { url:  original_url }
   }
