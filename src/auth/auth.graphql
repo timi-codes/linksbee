@@ -11,17 +11,17 @@ input CreateUserInput {
   password: String
 }
 
-type LoginResponse {
+type BooleanResponse {
   success: Boolean
   message: String
   data: User
 }
 
 type Query {
-  me: User
+  me: BooleanResponse
 }
 
 type Mutation {
-  login(email: String!, password: String!): LoginResponse!
-  register(createUserInput: CreateUserInput!): LoginResponse!
+  login(email: String!, password: String!): BooleanResponse!
+  register(createUserInput: CreateUserInput!): BooleanResponse!
 }

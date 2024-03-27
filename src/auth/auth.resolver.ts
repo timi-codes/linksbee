@@ -2,7 +2,9 @@ import { Resolver, Query, Mutation, Args, Context, GraphQLExecutionContext, GqlE
 import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { AuthInput } from './dto/auth.input';
-import { Req, Res } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from './auth.guard';
+import { User } from 'src/user/entities/user.entity';
 
 @Resolver('Auth')
 export class AuthResolver {
@@ -23,13 +25,14 @@ export class AuthResolver {
   ) {
     const response = await this.authService.login({ email, password })
     if (response.success) {
-      context.res.cookie("authorization", "Bearer " + response.data.auth);
+      context.res.cookie("Authorization", "Bearer " + response.data.access_token);
     }
     return response
   }
 
+  @UseGuards(AuthGuard)
   @Query('me')
-  findAll(@Context() context) {
-    return {}
+  findAll(@Context() context: { req: { user : User } & Request }) {
+    return { success: true, message: "Profile fetched", data: context.req.user }
   }
 }
