@@ -1,8 +1,8 @@
 import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
 import { AuthInput } from './dto/auth.input';
+import { Req } from '@nestjs/common';
 
 @Resolver('Auth')
 export class AuthResolver {
@@ -29,7 +29,7 @@ export class AuthResolver {
   }
 
   @Query('me')
-  findAll() {
+  findAll(@Context() context) {
     return {}
   }
 }

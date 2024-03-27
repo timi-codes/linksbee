@@ -37,8 +37,8 @@ export class AuthService {
     }
     const { password, ...restData } = user
 
-    const jwtConfig = this.configService.get<jwt.SignOptions & { secret: string }>('jwt');
-    const token = jwt.sign(restData, jwtConfig.secret, { ...jwtConfig });
+    const { secret, ...jwtConfig} = this.configService.get<jwt.SignOptions & { secret: string }>('jwt');
+    const token = jwt.sign(restData,secret, { ...jwtConfig });
 
     return { success: true, message: 'Login successful', data: { auth: token, ...restData,  }};
   }
