@@ -21,14 +21,20 @@ export interface User {
     updated_at?: Nullable<string>;
 }
 
+export interface LoginResponse {
+    success?: Nullable<boolean>;
+    message?: Nullable<string>;
+    data?: Nullable<User>;
+}
+
 export interface IQuery {
     me(): Nullable<User> | Promise<Nullable<User>>;
     getLink(): Nullable<Link> | Promise<Nullable<Link>>;
 }
 
 export interface IMutation {
-    login(email: string, password: string): User | Promise<User>;
-    register(createUserInput: CreateUserInput): User | Promise<User>;
+    login(email: string, password: string): LoginResponse | Promise<LoginResponse>;
+    register(createUserInput: CreateUserInput): LoginResponse | Promise<LoginResponse>;
     shorten(url: string): Nullable<Link> | Promise<Nullable<Link>>;
 }
 

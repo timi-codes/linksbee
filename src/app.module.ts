@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -28,9 +29,12 @@ import config from 'src/config';
       path: "/graphql",
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },
+      context: ({ req, res }) => ({ req, res })
     }),
     UserModule,
     AuthModule,

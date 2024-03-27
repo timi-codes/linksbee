@@ -1,8 +1,8 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context, GraphQLExecutionContext, GqlExecutionContext } from '@nestjs/graphql';
 import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { AuthInput } from './dto/auth.input';
-import { Req } from '@nestjs/common';
+import { Req, Res } from '@nestjs/common';
 
 @Resolver('Auth')
 export class AuthResolver {
@@ -19,11 +19,11 @@ export class AuthResolver {
   async login(
     @Args('email') email: string,
     @Args('password') password: string,
-    @Context('res') res: Response,
+    @Context() context: { req: Request, res: Response }
   ) {
     const response = await this.authService.login({ email, password })
     if (response.success) {
-      res.cookie("authorization", "Bearer " + response.data.auth);
+      context.res.cookie("authorization", "Bearer " + response.data.auth);
     }
     return response
   }
