@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Link } from './entities/link.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class LinkService {
@@ -31,5 +31,13 @@ export class LinkService {
     if (!existingLink) throw new NotFoundException('Link not found');
 
     return existingLink;
+  }
+
+  async findByUser(user_id: string): Promise<Link[]> {
+    return this.linkRepository.find({
+      where: {
+        user: Equal(user_id)
+      }
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, BeforeInsert, ManyToOne, JoinColumn } from 'typeorm';
 import { generateShortURL } from 'src/utils';
+import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Link {
@@ -24,9 +25,9 @@ export class Link {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updated_at: Date;
 
-    // @ManyToOne(() => User, user => user.links)
-    // @JoinColumn({ name: 'user_id' })
-    // user: User;
+    @ManyToOne(() => User, user => user.links)
+    @JoinColumn({ name: 'user_id' })
+    user: User;
 
     @BeforeInsert()
     generateId() {

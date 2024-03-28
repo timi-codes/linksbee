@@ -32,7 +32,7 @@ export class AuthResolver {
 
   @UseGuards(AuthGuard)
   @Query('me')
-  findAll(@Context() context: { req: { user : User } & Request }) {
+  getProfile(@Context() context: { req: { user : User } & Request }) {
     return { success: true, message: "Profile fetched", data: context.req.user }
   }
 }
