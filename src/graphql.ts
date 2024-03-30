@@ -29,7 +29,7 @@ export interface BooleanResponse {
 
 export interface IQuery {
     me(): Nullable<BooleanResponse> | Promise<Nullable<BooleanResponse>>;
-    getLink(): Nullable<Link> | Promise<Nullable<Link>>;
+    links(): Nullable<Nullable<Link>[]> | Promise<Nullable<Nullable<Link>[]>>;
 }
 
 export interface IMutation {

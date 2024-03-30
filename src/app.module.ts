@@ -22,7 +22,9 @@ import config from 'src/config';
       envFilePath: ['.env.local', '.env.production'],
     }),
     BullModule.forRootAsync({
-      useFactory: (configService: ConfigService) => configService.get('redis')
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => configService.get('redis'),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -42,7 +44,7 @@ import config from 'src/config';
     }),
     UserModule,
     AuthModule,
-    // LinkModule
+    LinkModule
   ],
   controllers: [AppController],
   providers: [AppService],

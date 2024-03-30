@@ -10,7 +10,7 @@ type Link {
 }
 
 type Query {
-  getLink: Link
+  links: [Link]
 }
 
 type Mutation {
