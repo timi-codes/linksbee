@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { BullModule } from '@nestjs/bull';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,6 +20,9 @@ import config from 'src/config';
       load: [config],
       isGlobal: true,
       envFilePath: ['.env.local', '.env.production'],
+    }),
+    BullModule.forRootAsync({
+      useFactory: (configService: ConfigService) => configService.get('redis')
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

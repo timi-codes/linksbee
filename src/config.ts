@@ -7,13 +7,17 @@ export default () => ({
       issuer: process.env.JWT_ISS,
       expiresIn: process.env.JWT_EXP || '14d',
     }
-    },
-    db: {
-      type: process.env.DB_TYPE,
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT, 10) || 5432,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-    }
+  },
+  db: {
+    type: process.env.DB_TYPE,
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT, 10) || 5432,
+    database: process.env.DB_NAME,
+    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    synchronize: true,
+  },
+  redis: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT, 10) || 6379,
+  }
 });
