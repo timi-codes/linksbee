@@ -19,3 +19,53 @@ export function generateShortURL(url: string) {
 
     return encodedString;
 }
+
+export function getBrowser(userAgent: string) {
+    // Regular expressions to match common browser patterns
+    const browsers = {
+        Chrome: /Chrome\/([\d.]+)/,
+        Firefox: /Firefox\/([\d.]+)/,
+        Safari: /Version\/([\d.]+).*Safari/,
+        Edge: /Edge\/([\d.]+)/,
+        'Internet Explorer': /MSIE|rv:([\d.]+)/,
+        Opera: /Opera\/([\d.]+)/,
+    };
+
+    for (const browser in browsers) {
+        if (browsers.hasOwnProperty(browser)) {
+            const match = userAgent.match(browsers[browser]);
+            if (match) {
+                return { name: browser, version: match[1] };
+            }
+        }
+    }
+
+    return { name: 'Unknown', version: 'N/A' };
+}
+
+export function getOS(userAgent: string) {
+    const osRegex = {
+        Windows: /Windows NT (\d+\.\d+)/,
+        macOS: /Mac OS X (\d+)[._](\d+)(?:[._](\d+))?/,
+        iOS: /(?:iPhone|iPad|iPod).*? OS (\d+)[._](\d+)(?:[._](\d+))?/,
+        Android: /Android (\d+\.\d+)(?:\.\d+)?/,
+        Linux: /Linux/,
+    };
+
+    for (const os in osRegex) {
+        if (osRegex.hasOwnProperty(os)) {
+            const match = userAgent.match(osRegex[os]);
+            if (match) {
+                if (os === 'macOS') {
+                    return { name: os, version: match.slice(1).join('.') };
+                } else if (os === 'iOS') {
+                    return { name: os, version: match.slice(1, 3).join('.') };
+                } else {
+                    return { name: os, version: match[1] || '' };
+                }
+            }
+        }
+    }
+
+    return { name: 'Unknown', version: '' };
+}

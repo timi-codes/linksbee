@@ -19,5 +19,9 @@ export default () => ({
   redis: {
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT, 10) || 6379,
+  },
+  mongo: {
+    uri: process.env.MONGO_URI,
+    dbName: process.env.MONGO_DB_NAME,
   }
 });
