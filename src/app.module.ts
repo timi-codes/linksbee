@@ -1,6 +1,5 @@
 import { join } from 'path'; 
-import { Module } from '@nestjs/common'; // Import HttpModule from @nestjs/common
-
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -8,7 +7,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { BullModule } from '@nestjs/bull';
 import { MongooseModule } from '@nestjs/mongoose';
-import { HttpModule } from '@nestjs/axios';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -16,8 +14,6 @@ import { LinkModule } from './link/link.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import config from 'src/config';
-import { AnalyticsConsumer } from './link/analytics/analytics.processor';
-import { AnalyticsSchema } from './link/analytics/analytics.schema';
 
 
 @Module({
@@ -37,13 +33,9 @@ import { AnalyticsSchema } from './link/analytics/analytics.schema';
       useFactory: (configService: ConfigService) => configService.get('db'),
       inject: [ConfigService],
     }),
-    HttpModule,
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        schema: AnalyticsSchema,
-        ...configService.get('mongo')
-      }),
+      useFactory: (configService: ConfigService) => configService.get('mongo'),
       inject: [ConfigService],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -62,7 +54,7 @@ import { AnalyticsSchema } from './link/analytics/analytics.schema';
     LinkModule
   ],
   controllers: [AppController],
-  providers: [AppService, AnalyticsConsumer],
+  providers: [AppService],
 })
 export class AppModule {}
 

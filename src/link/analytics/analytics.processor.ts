@@ -4,6 +4,9 @@ import { HttpService } from '@nestjs/axios';
 import { getBrowser, getOS } from 'src/utils';
 import { Observable, catchError, firstValueFrom, of } from 'rxjs';
 import { AxiosResponse } from 'axios';
+import { InjectModel } from '@nestjs/mongoose';
+import { Analytics } from './analytics.schema';
+import { Model } from 'mongoose';
 
 interface JobData { 
     id: string,
@@ -24,32 +27,41 @@ interface ResponseData {
 
 @Processor('analytics')
 export class AnalyticsConsumer {
-    constructor(private readonly httpService: HttpService) {}
+    constructor(
+        private readonly httpService: HttpService,
+        @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>
+    ) { }
 
     @Process()
     async processData(job: Job<JobData>) {
+        try {
+            const { data: ipResponse } = await firstValueFrom<AxiosResponse<ResponseData>>(
+                this.httpService.get(`http://ip-api.com/json/102.131.36.0?fields=status,message,query,country,countryCode`).pipe(
+                    catchError((err: Observable<unknown>) => {
+                        console.error(err);
+                        return of({} as AxiosResponse<ResponseData>);
+                    })
+                )
+            );
 
-        const { data } = await firstValueFrom<AxiosResponse<ResponseData>>(
-            this.httpService.get(`http://ip-api.com/json/102.131.36.0?fields=status,message,query,country,countryCode`).pipe(
-                catchError((err: Observable<unknown>) => {
-                    console.error(err);
-                    return of({} as AxiosResponse<ResponseData>);
-                })
-            )
-        );
+            if(ipResponse.status !== 'success') return console.error(ipResponse.message);
 
-        if(data.status !== 'success') return console.error(data.message);
+            const analytics = {
+                bee_id: job.data.id,
+                country: {
+                    code: ipResponse.countryCode,
+                    name: ipResponse.country
+                },
+                browser: getBrowser(job.data.browser.agent).name,
+                os: getOS(job.data.browser.agent).name,
+                referer: job.data.browser.referrer,
+            }
 
-        const analytics = {
-            bee_id: job.data.id,
-            country: {
-                code: data.countryCode,
-                name: data.country
-            },
-            browser: getBrowser(job.data.browser.agent),
-            os: getOS(job.data.browser.agent),
-            referer: job.data.browser.referrer,
+            const data = await this.analyticsModel.create(analytics);
+            await data.save();
+        } catch (error) {
+            console.error(error);
         }
-        console.log(analytics);
+
     }
 }

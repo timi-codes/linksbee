@@ -21,13 +21,13 @@ export function generateShortURL(url: string) {
 }
 
 export function getBrowser(userAgent: string) {
-    // Regular expressions to match common browser patterns
+
     const browsers = {
+        Edge: /Edg\/([\d.]+)/,
+        'Internet Explorer': /MSIE|rv:([\d.]+)/,
         Chrome: /Chrome\/([\d.]+)/,
         Firefox: /Firefox\/([\d.]+)/,
         Safari: /Version\/([\d.]+).*Safari/,
-        Edge: /Edge\/([\d.]+)/,
-        'Internet Explorer': /MSIE|rv:([\d.]+)/,
         Opera: /Opera\/([\d.]+)/,
     };
 
