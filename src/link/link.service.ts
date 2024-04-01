@@ -47,9 +47,6 @@ export class LinkService {
   }
 
   async analytics(id: string): Promise<any> { 
-    const link = await this.findOne(id);
-    if (!link) throw new NotFoundException('Link not found');
-
     const docs = await this.analyticsModel.find({
       bee_id: id
     }).lean().exec();
