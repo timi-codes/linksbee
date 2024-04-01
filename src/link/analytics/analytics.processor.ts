@@ -8,13 +8,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Analytics } from './analytics.schema';
 import { Model } from 'mongoose';
 
-interface JobData { 
+interface AnalyticsJobData { 
     id: string,
-    browser: {
-        agent: string;
-        ip: string;
-        referrer: string;
-    }
+    agent: string;
+    ip: string;
+    referrer: string;
+    date: Date;
 }
 
 interface ResponseData { 
@@ -33,7 +32,7 @@ export class AnalyticsConsumer {
     ) { }
 
     @Process()
-    async processData(job: Job<JobData>) {
+    async processData(job: Job<AnalyticsJobData>) {
         try {
             const { data: ipResponse } = await firstValueFrom<AxiosResponse<ResponseData>>(
                 this.httpService.get(`http://ip-api.com/json/102.131.36.0?fields=status,message,query,country,countryCode`).pipe(
@@ -52,9 +51,10 @@ export class AnalyticsConsumer {
                     code: ipResponse.countryCode,
                     name: ipResponse.country
                 },
-                browser: getBrowser(job.data.browser.agent).name,
-                os: getOS(job.data.browser.agent).name,
-                referer: job.data.browser.referrer,
+                browser: getBrowser(job.data.agent).name,
+                os: getOS(job.data.agent).name,
+                referer: job.data.referrer,
+                date: job.data.date
             }
 
             const data = await this.analyticsModel.create(analytics);

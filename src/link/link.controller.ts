@@ -17,12 +17,10 @@ export class LinkController {
     const { original_url } = await this.linkService.redirect(id);
     await this.analyticsQueue.add({
       id,
-      browser: {
-        agent: request.headers['user-agent'],
-        referrer: request.headers['referrer'],
-        ip: request.ip,
-        date: request.headers['Date'],
-      }
+      agent: request.headers['user-agent'],
+      referrer: request.headers['referrer'],
+      ip: request.ip,
+      date: new Date(),
     });
     return { url:  original_url }
   }

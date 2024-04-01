@@ -1,0 +1,7 @@
+
+- Analytics
+    - add date to analytics field
+    - get analytics by link_id
+        - aggregate request for ui use (group by months, countries, browser, OS )
+        - only owner can make request
+    - Implement total click
