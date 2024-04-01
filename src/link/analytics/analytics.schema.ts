@@ -20,6 +20,9 @@ export class Analytics {
 
   @Prop()
   referer: string;
+
+  @Prop({ default: Date.now })
+  date: Date;
 }
 
 export const AnalyticsSchema = SchemaFactory.createForClass(Analytics);
