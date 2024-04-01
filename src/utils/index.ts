@@ -75,8 +75,9 @@ export function groupData(
     key: string,
     keyFn?: ((data: any, key: string) => string) | undefined
 ) {
+
     const data = docs.reduce((acc, curr) => {
-      const label = key ? keyFn(acc, key) : curr[key]
+      const label = keyFn ? keyFn(curr, key) : curr[key]
       let value = 1
       if (acc[label]) {
         value += 1;
@@ -85,7 +86,7 @@ export function groupData(
         acc[label] = { label, value }
       }
       return acc
-    }, {});
+    }, {} as { [key: string]: { label: string, value: number } });
 
     return Object.values(data)
 }

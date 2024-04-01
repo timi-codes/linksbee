@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { LinkService } from './link.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
-  import { OwnerGuard } from 'src/auth/owner.guard';
+import { OwnerGuard } from 'src/auth/owner.guard';
 import { User } from 'src/user/entities/user.entity';
 
 @Resolver('Link')
@@ -22,7 +22,7 @@ export class LinkResolver {
 
   @UseGuards(AuthGuard, OwnerGuard)
   @Query('analytics')
-  getAnalytics(@Args('id') id: string) {
+  getAnalytics(@Args('bee_id') id: string) {
     return this.linkService.analytics(id)
   }
 }

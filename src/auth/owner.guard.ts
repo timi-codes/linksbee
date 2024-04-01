@@ -17,11 +17,11 @@ export class OwnerGuard implements CanActivate {
     const request = gqlCtx.getContext().req;
         
     try {
-        const user = request['user'];
-        const id = request.params['id']
+      const user = request['user'];
+      const id = request.params['id']
 
-        const link = await this.linkService.findOne(id);
-        if (link.user !== user.id) throw new UnauthorizedException();
+      const link = await this.linkService.findOne(id);
+      if (link.user_id !== user.id) throw new UnauthorizedException("You don't have permission to access this resource.");
     } catch {
       throw new UnauthorizedException();
     }

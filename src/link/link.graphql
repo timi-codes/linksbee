@@ -9,8 +9,21 @@ type Link {
   updated_at: String
 }
 
+type KeyValue {
+  label: String
+  value: Int
+}
+
+type Analytics {
+  date: [KeyValue]
+  browser: [KeyValue]
+  os: [KeyValue]
+  country: [KeyValue]
+}
+
 type Query {
   links: [Link]
+  analytics(bee_id: String!): Analytics
 }
 
 type Mutation {

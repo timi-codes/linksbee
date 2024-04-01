@@ -51,12 +51,12 @@ export class LinkService {
       bee_id: id
     }).lean().exec();
 
-    const dates = groupData(docs, "date", (data, key: string) => data[key].toISOString().split('T')[0]);
-    const browsers = groupData(docs, "browser");
+    const date = groupData(docs, "date", (data, key: string) => data[key].toISOString().split('T')[0]);
+    const browser = groupData(docs, "browser");
     const os = groupData(docs, "os");
-    const countries = groupData(docs, "country",  (data, key: string) => data[key].name);
+    const country = groupData(docs, "country",  (data, key: string) => data[key].name);
 
-    return { dates, browsers, os, countries}
+    return { date, browser, os, country }
   }
 
   async findOne(id: string): Promise<Link> {
