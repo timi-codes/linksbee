@@ -19,10 +19,11 @@ export class LinkResolver {
     return this.linkService.findByUser(context.req.user.id);
   }
 
-  // @Query('link')
-  // findOne(@Args('id') id: number) {
-  //   return this.linkService.findOne(id);
-  // }
+  // @UseGuards(AuthGuard)
+  @Query('linkAnalytics')
+  getLinkAnalytics(@Args('id') id: string) {
+    return this.linkService.analytics(id)
+  }
 
   // @Mutation('updateLink')
   // update(@Args('updateLinkInput') updateLinkInput: UpdateLinkInput) {

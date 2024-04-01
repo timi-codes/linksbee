@@ -69,3 +69,23 @@ export function getOS(userAgent: string) {
 
     return { name: 'Unknown', version: '' };
 }
+
+export function groupData(
+    docs: any[],
+    key: string,
+    keyFn?: ((data: any, key: string) => string) | undefined
+) {
+    const data = docs.reduce((acc, curr) => {
+      const label = key ? keyFn(acc, key) : curr[key]
+      let value = 1
+      if (acc[label]) {
+        value += 1;
+        acc[label].value = value
+      } else {
+        acc[label] = { label, value }
+      }
+      return acc
+    }, {});
+
+    return Object.values(data)
+}
