@@ -80,10 +80,9 @@ export function groupData(
       const label = keyFn ? keyFn(curr, key) : curr[key]
       let value = 1
       if (acc[label]) {
-        value += 1;
-        acc[label].value = value
+        acc[label].value += value
       } else {
-        acc[label] = { label, value }
+        acc[label] = { label, value: 1 }
       }
       return acc
     }, {} as { [key: string]: { label: string, value: number } });

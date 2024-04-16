@@ -45,7 +45,7 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
-._todo_dumps
+.todo
 
 # Runtime data
 pids

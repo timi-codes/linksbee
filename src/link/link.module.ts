@@ -11,7 +11,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Analytics, AnalyticsSchema } from './analytics/analytics.schema';
 
 @Module({
-  // controllers: [LinkController],
+  controllers: [LinkController],
   imports: [
     TypeOrmModule.forFeature([Link]),
     BullModule.registerQueue({

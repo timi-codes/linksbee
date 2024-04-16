@@ -47,16 +47,81 @@ export class LinkService {
   }
 
   async analytics(id: string): Promise<any> { 
-    const docs = await this.analyticsModel.find({
-      bee_id: id
-    }).lean().exec();
+    const docs = await this.analyticsModel.aggregate([
+      {
+        $match: {
+          bee_id: id
+        }
+      },
+      {
+        $facet: {
+          browser: [
+            {
+              $group: {
+                _id: "$browser",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count",
+                _id: 0
+              }
+            }
+          ],
+          os: [
+            {
+              $group: {
+                _id: "$os",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count"
+              }
+            }
+          ],
+          country: [
+            {
+              $group: {
+                _id: "$country.name",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count"
+              }
+            }
+          ],
+          date: [
+            {
+              $group: {
+                _id: {
+                  $dateTrunc: {
+                    date: "$date", unit: "hour", binSize: 24
+                  }
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count",
+                _id: 0
+              }
+            }
+          ]
+        }
+      }
+    ])
 
-    const date = groupData(docs, "date", (data, key: string) => data[key].toISOString().split('T')[0]);
-    const browser = groupData(docs, "browser");
-    const os = groupData(docs, "os");
-    const country = groupData(docs, "country",  (data, key: string) => data[key].name);
-
-    return { date, browser, os, country }
+    return { ...docs[0] }
   }
 
   async findOne(id: string): Promise<Link> {

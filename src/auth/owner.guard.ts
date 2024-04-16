@@ -12,7 +12,8 @@ import { LinkService } from 'src/link/link.service';
 export class OwnerGuard implements CanActivate {
   constructor(private readonly linkService: LinkService) {}
 
-    async canActivate(context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    
     const gqlCtx = GqlExecutionContext.create(context);
     const request = gqlCtx.getContext().req;
         
