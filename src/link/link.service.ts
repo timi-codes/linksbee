@@ -5,7 +5,6 @@ import { Equal, Repository } from 'typeorm';
 import { InjectModel } from '@nestjs/mongoose';
 import { Analytics } from './analytics/analytics.schema';
 import { Model } from 'mongoose';
-import { groupData } from 'src/utils';
 
 @Injectable()
 export class LinkService {

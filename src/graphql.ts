@@ -59,6 +59,7 @@ export interface Analytics {
     browser?: Nullable<Nullable<KeyValue>[]>;
     os?: Nullable<Nullable<KeyValue>[]>;
     country?: Nullable<Nullable<KeyValue>[]>;
+    total_clicks?: Nullable<number>;
 }
 
 type Nullable<T> = T | null;

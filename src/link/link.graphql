@@ -19,6 +19,7 @@ type Analytics {
   browser: [KeyValue]
   os: [KeyValue]
   country: [KeyValue]
+  total_clicks: Int
 }
 
 type Query {
