@@ -116,11 +116,24 @@ export class LinkService {
                 _id: 0
               }
             }
+          ],
+          total_clicks: [
+            {
+              $count: "clicks",
+            },
           ]
+        }
+      },
+      {
+        $project: {
+          browser: 1,
+          country: 1,
+          os: 1, 
+          date: 1, 
+           total_clicks: { $arrayElemAt: ["$total_clicks.clicks", 0]  }
         }
       }
     ])
-
     return { ...docs[0] }
   }
 
