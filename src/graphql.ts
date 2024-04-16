@@ -30,6 +30,7 @@ export interface BooleanResponse {
 export interface IQuery {
     me(): Nullable<BooleanResponse> | Promise<Nullable<BooleanResponse>>;
     links(): Nullable<Nullable<Link>[]> | Promise<Nullable<Nullable<Link>[]>>;
+    analytics(bee_id: string): Nullable<Analytics> | Promise<Nullable<Analytics>>;
 }
 
 export interface IMutation {
@@ -46,6 +47,18 @@ export interface Link {
     last_visited_at?: Nullable<string>;
     created_at?: Nullable<string>;
     updated_at?: Nullable<string>;
+}
+
+export interface KeyValue {
+    label?: Nullable<string>;
+    value?: Nullable<number>;
+}
+
+export interface Analytics {
+    date?: Nullable<Nullable<KeyValue>[]>;
+    browser?: Nullable<Nullable<KeyValue>[]>;
+    os?: Nullable<Nullable<KeyValue>[]>;
+    country?: Nullable<Nullable<KeyValue>[]>;
 }
 
 type Nullable<T> = T | null;

@@ -2,6 +2,7 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { LinkService } from './link.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
+import { OwnerGuard } from 'src/auth/owner.guard';
 import { User } from 'src/user/entities/user.entity';
 
 @Resolver('Link')
@@ -16,21 +17,13 @@ export class LinkResolver {
   @UseGuards(AuthGuard)
   @Query('links')
   getUserLinks(@Context() context: { req: { user: User } & Request }) {
+    console.log("==>", context.req.user)
     return this.linkService.findByUser(context.req.user.id);
   }
 
-  // @Query('link')
-  // findOne(@Args('id') id: number) {
-  //   return this.linkService.findOne(id);
-  // }
-
-  // @Mutation('updateLink')
-  // update(@Args('updateLinkInput') updateLinkInput: UpdateLinkInput) {
-  //   return this.linkService.update(updateLinkInput.id, updateLinkInput);
-  // }
-
-  // @Mutation('removeLink')
-  // remove(@Args('id') id: number) {
-  //   return this.linkService.remove(id);
-  // }
+  @UseGuards(AuthGuard, OwnerGuard)
+  @Query('analytics')
+  getAnalytics(@Args('bee_id') id: string) {
+    return this.linkService.analytics(id)
+  }
 }

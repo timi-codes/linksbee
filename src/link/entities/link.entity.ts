@@ -25,7 +25,10 @@ export class Link {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updated_at: Date;
 
-    @ManyToOne(() => User, user => user.links)
+    @Column({ nullable: true })
+    user_id: string;
+
+    @ManyToOne(() => User, user => user.links, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user: User;
 

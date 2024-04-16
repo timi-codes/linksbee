@@ -2,12 +2,17 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Link } from './entities/link.entity';
 import { Equal, Repository } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Analytics } from './analytics/analytics.schema';
+import { Model } from 'mongoose';
+import { groupData } from 'src/utils';
 
 @Injectable()
 export class LinkService {
   constructor(
     @InjectRepository(Link)
     private readonly linkRepository: Repository<Link>,
+    @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>
   ) { }
   
   async shorten(url: string): Promise<Link> {
@@ -37,6 +42,92 @@ export class LinkService {
     return this.linkRepository.find({
       where: {
         user: Equal(user_id)
+      }
+    });
+  }
+
+  async analytics(id: string): Promise<any> { 
+    const docs = await this.analyticsModel.aggregate([
+      {
+        $match: {
+          bee_id: id
+        }
+      },
+      {
+        $facet: {
+          browser: [
+            {
+              $group: {
+                _id: "$browser",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count",
+                _id: 0
+              }
+            }
+          ],
+          os: [
+            {
+              $group: {
+                _id: "$os",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count"
+              }
+            }
+          ],
+          country: [
+            {
+              $group: {
+                _id: "$country.name",
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count"
+              }
+            }
+          ],
+          date: [
+            {
+              $group: {
+                _id: {
+                  $dateTrunc: {
+                    date: "$date", unit: "hour", binSize: 24
+                  }
+                },
+                count: { $sum: 1 }
+              }
+            },
+            {
+              $project: {
+                label: "$_id",
+                value: "$count",
+                _id: 0
+              }
+            }
+          ]
+        }
+      }
+    ])
+
+    return { ...docs[0] }
+  }
+
+  async findOne(id: string): Promise<Link> {
+    return this.linkRepository.findOne({
+      where: {
+        bee_id: id
       }
     });
   }

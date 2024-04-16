@@ -38,6 +38,9 @@ import config from 'src/config';
       useFactory: (configService: ConfigService) => configService.get('mongo'),
       inject: [ConfigService],
     }),
+    UserModule,
+    AuthModule,
+    LinkModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       path: "/graphql",
       driver: ApolloDriver,
@@ -48,10 +51,7 @@ import config from 'src/config';
         path: join(process.cwd(), 'src/graphql.ts'),
       },
       context: ({ req, res }) => ({ req, res })
-    }),
-    UserModule,
-    AuthModule,
-    LinkModule
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
