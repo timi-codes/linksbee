@@ -45,6 +45,7 @@ export interface Link {
     original_url?: Nullable<string>;
     expires_at?: Nullable<string>;
     last_visited_at?: Nullable<string>;
+    no_of_visits?: Nullable<number>;
     created_at?: Nullable<string>;
     updated_at?: Nullable<string>;
 }

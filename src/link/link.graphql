@@ -5,6 +5,7 @@ type Link {
   original_url: String
   expires_at: String
   last_visited_at: String
+  no_of_visits: Int
   created_at: String
   updated_at: String
 }

@@ -143,4 +143,8 @@ export class LinkService {
       }
     });
   }
+
+  async updateOne(id: string, data: Partial<Link>): Promise<number> {
+    return (await this.linkRepository.update(id, {...data})).affected
+  }
 }
