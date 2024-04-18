@@ -38,9 +38,8 @@ import config from 'src/config';
     }),
     UserModule,
     AuthModule,
-    LinkModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      path: "/graphql",
+      path: "/playground",
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
       playground: false,
@@ -49,7 +48,8 @@ import config from 'src/config';
         path: join(process.cwd(), 'src/graphql.ts'),
       },
       context: ({ req, res }) => ({ req, res })
-    })
+    }),
+    LinkModule,
   ],
   controllers: [AppController],
   providers: [AppService],
