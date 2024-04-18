@@ -17,7 +17,6 @@ export class LinkResolver {
   @UseGuards(AuthGuard)
   @Query('links')
   getUserLinks(@Context() context: { req: { user: User } & Request }) {
-    console.log("==>", context.req.user)
     return this.linkService.findByUser(context.req.user.id);
   }
 

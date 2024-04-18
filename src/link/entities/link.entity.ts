@@ -19,6 +19,9 @@ export class Link {
     @Column({ type: 'timestamp', nullable: true })
     last_visited_at: Date;
 
+    @Column({ nullable: true })
+    no_of_visits: number
+
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at: Date;
 

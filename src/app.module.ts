@@ -7,14 +7,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { BullModule } from '@nestjs/bull';
 import { MongooseModule } from '@nestjs/mongoose';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LinkModule } from './link/link.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import config from 'src/config';
-
 
 @Module({
   imports: [
@@ -40,9 +38,8 @@ import config from 'src/config';
     }),
     UserModule,
     AuthModule,
-    LinkModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      path: "/graphql",
+      path: "/playground",
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
       playground: false,
@@ -51,7 +48,8 @@ import config from 'src/config';
         path: join(process.cwd(), 'src/graphql.ts'),
       },
       context: ({ req, res }) => ({ req, res })
-    })
+    }),
+    LinkModule,
   ],
   controllers: [AppController],
   providers: [AppService],

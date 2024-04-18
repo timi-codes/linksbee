@@ -5,6 +5,7 @@ type Link {
   original_url: String
   expires_at: String
   last_visited_at: String
+  no_of_visits: Int
   created_at: String
   updated_at: String
 }
@@ -19,6 +20,7 @@ type Analytics {
   browser: [KeyValue]
   os: [KeyValue]
   country: [KeyValue]
+  total_clicks: Int
 }
 
 type Query {

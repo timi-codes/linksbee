@@ -5,7 +5,6 @@ import { Equal, Repository } from 'typeorm';
 import { InjectModel } from '@nestjs/mongoose';
 import { Analytics } from './analytics/analytics.schema';
 import { Model } from 'mongoose';
-import { groupData } from 'src/utils';
 
 @Injectable()
 export class LinkService {
@@ -116,11 +115,24 @@ export class LinkService {
                 _id: 0
               }
             }
+          ],
+          total_clicks: [
+            {
+              $count: "clicks",
+            },
           ]
+        }
+      },
+      {
+        $project: {
+          browser: 1,
+          country: 1,
+          os: 1, 
+          date: 1, 
+           total_clicks: { $arrayElemAt: ["$total_clicks.clicks", 0]  }
         }
       }
     ])
-
     return { ...docs[0] }
   }
 
@@ -130,5 +142,9 @@ export class LinkService {
         bee_id: id
       }
     });
+  }
+
+  async updateOne(id: string, data: Partial<Link>): Promise<number> {
+    return (await this.linkRepository.update(id, {...data})).affected
   }
 }

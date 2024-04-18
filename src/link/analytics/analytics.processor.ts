@@ -7,6 +7,7 @@ import { AxiosResponse } from 'axios';
 import { InjectModel } from '@nestjs/mongoose';
 import { Analytics } from './analytics.schema';
 import { Model } from 'mongoose';
+import { LinkService } from '../link.service';
 
 interface AnalyticsJobData { 
     id: string,
@@ -28,7 +29,8 @@ interface ResponseData {
 export class AnalyticsConsumer {
     constructor(
         private readonly httpService: HttpService,
-        @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>
+        @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>,
+        private readonly linkService: LinkService
     ) { }
 
     @Process()
@@ -59,6 +61,12 @@ export class AnalyticsConsumer {
 
             const data = await this.analyticsModel.create(analytics);
             await data.save();
+
+            const no_of_visits = await this.analyticsModel.countDocuments({ bee_id: job.data.id })
+            await this.linkService.updateOne(job.data.id, {
+                last_visited_at: job.data.date,
+                no_of_visits
+            })
         } catch (error) {
             console.error(error);
         }

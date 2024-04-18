@@ -1,4 +1,4 @@
-import { Controller, Get, Redirect, Param, Req } from '@nestjs/common';
+import { Controller, Get, Redirect, Param, Req, UsePipes } from '@nestjs/common';
 import { LinkService } from './link.service';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
@@ -11,7 +11,7 @@ export class LinkController {
     @InjectQueue('analytics') private analyticsQueue: Queue
   ) { }
 
-  @Get(":id")
+  @Get(":id([a-zA-Z]{7})")
   @Redirect()
   async redirect(@Param('id') id: string, @Req() request: Request) {
     const { original_url } = await this.linkService.redirect(id);
