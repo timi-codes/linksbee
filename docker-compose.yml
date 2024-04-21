@@ -25,11 +25,16 @@ services:
   linkbee-be:
     build:
       context: .
+      target: base
+    command: npm run start:dev
+    volumes:
+      - ./src:/user/src/app/src
     image: linkbee-be
     env_file:
       - .env.local
     ports:
       - "4000:4000"
+      - "9229:9229"
     depends_on:
       - postgres
       - mongo
