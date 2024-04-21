@@ -3,23 +3,25 @@ services:
   postgres:
     image: postgres:15.1
     networks:
-      - postgres
+      - backend_linkbee_default
     volumes:
-      - /data/postgres:/data/postgres
+      - ./data/postgres:/data/postgres
     env_file:
       - docker.env
-  
-  pgadmin:
-    image: dpage/pgadmin4:6.18
-    networks:
-      - postgres
     ports:
-      - "8080:80"
+      - '5433:5432'
+  
+  mongo:
+    image: mongo
+    networks:
+      - backend_linkbee_default
     volumes:
-      - /data/pgadmin:/root/.pgadmin
+      - ./data/mongo:/data/mongo
     env_file:
       - docker.env
-
+    ports:
+      - '27017:27017'
+    
   linkbee-be:
     image: linkbee-be
     env_file:
@@ -28,9 +30,11 @@ services:
       - "4000:4000"
     depends_on:
       - postgres
+      - mongo
     networks:
-      - postgres
+      -  backend_linkbee_default
+
 
 networks:
-  postgres:
+  backend_linkbee_default:
     driver: bridge
