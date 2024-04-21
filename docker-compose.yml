@@ -23,6 +23,8 @@ services:
       - '27017:27017'
     
   linkbee-be:
+    build:
+      context: .
     image: linkbee-be
     env_file:
       - .env.local
@@ -33,7 +35,6 @@ services:
       - mongo
     networks:
       -  backend_linkbee_default
-
 
 networks:
   backend_linkbee_default:
