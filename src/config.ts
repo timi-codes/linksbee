@@ -11,9 +11,11 @@ export default () => ({
   db: {
     type: process.env.DB_TYPE,
     host: process.env.DB_HOST || 'localhost',
+    username: process.env.DB_USERNAME || "postgres",
+    password: process.env.DB_PASSWORD || "",
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     database: process.env.DB_NAME,
-    entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    entities: ['dist/**/*.entity.{ts,js}'],
     synchronize: true,
   },
   redis: {

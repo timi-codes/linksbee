@@ -1,4 +1,4 @@
-import { Controller, Get, Redirect, Param, Req, UsePipes } from '@nestjs/common';
+import { Controller, Get, Redirect, Param, Req } from '@nestjs/common';
 import { LinkService } from './link.service';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
