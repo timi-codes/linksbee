@@ -11,8 +11,8 @@ export default () => ({
   db: {
     type: process.env.DB_TYPE,
     host: process.env.DB_HOST || 'localhost',
-    username: process.env.DB_USERNAME || "postgres",
-    password: process.env.DB_PASSWORD || "",
+    // username: process.env.DB_USERNAME || "postgres",
+    // password: process.env.DB_PASSWORD || "",
     port: parseInt(process.env.DB_PORT, 10) || 5432,
     database: process.env.DB_NAME,
     entities: ['dist/**/*.entity.{ts,js}'],
@@ -24,6 +24,6 @@ export default () => ({
   },
   mongo: {
     uri: process.env.MONGO_URI,
-    dbName: process.env.MONGO_DB,
+    // dbName: process.env.MONGO_DB,
   }
 });

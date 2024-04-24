@@ -1,4 +1,4 @@
-FROM node:18-alpine as base
+FROM --platform=linux/amd64 node:18-alpine as base
 
 WORKDIR /user/src/app
 
@@ -10,14 +10,14 @@ COPY tsconfig.json ./tsconfig.json
 COPY tsconfig.build.json ./tsconfig.build.json
 
 # Creating a build:
-FROM node:18-alpine as create-build
+FROM --platform=linux/amd64 node:18-alpine as create-build
 WORKDIR /user/src/app
 COPY --from=base /user/src/app ./
 RUN yarn run build
 USER node
 
 # Running the application:
-FROM node:18-alpine AS run
+FROM --platform=linux/amd64 node:18-alpine AS run
 WORKDIR /user/src/app
 
 COPY --from=base /user/src/app/node_modules ./node_modules
