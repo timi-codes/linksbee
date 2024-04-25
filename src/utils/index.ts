@@ -78,7 +78,7 @@ export function groupData(
   const data = docs.reduce(
     (acc, curr) => {
       const label = keyFn ? keyFn(curr, key) : curr[key];
-      let value = 1;
+      const value = 1;
       if (acc[label]) {
         acc[label].value += value;
       } else {

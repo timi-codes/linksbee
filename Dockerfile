@@ -5,10 +5,7 @@ WORKDIR /user/src/app
 COPY package.json yarn.lock ./
 RUN yarn install
 
-COPY src ./src
-COPY tsconfig.json ./tsconfig.json
-COPY tsconfig.build.json ./tsconfig.build.json
-COPY nest-cli.json ./nest-cli.json
+COPY . .
 
 # Creating a build:
 FROM node:18-alpine as create-build

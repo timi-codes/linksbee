@@ -1,12 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Context,
-  GraphQLExecutionContext,
-  GqlExecutionContext,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { AuthInput } from './dto/auth.input';

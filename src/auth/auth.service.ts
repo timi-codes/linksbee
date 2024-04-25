@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { AuthInput } from './dto/auth.input';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import lodash from 'lodash';
 
 @Injectable()
 export class AuthService {
@@ -42,14 +43,13 @@ export class AuthService {
     if (!passwordMatch) {
       return { success: false, message: 'Invalid credential' };
     }
-    const { password, ...restData } = user;
-
-    const token = await this.jwtService.signAsync(restData);
+    const data = lodash.omit(user, 'password');
+    const token = await this.jwtService.signAsync(data);
 
     return {
       success: true,
       message: 'Login successful',
-      data: { access_token: token, ...restData },
+      data: { access_token: token, ...data },
     };
   }
 
