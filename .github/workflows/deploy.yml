@@ -8,7 +8,7 @@ on:
 jobs:
   create-docker-image:
     name: Build and push Docker image to ECR
-    runs-on: unbuntu-latest
+    runs-on: ubuntu-latest
     steps:
         - name: Check out the repository
           uses: actions/checkout@v3
