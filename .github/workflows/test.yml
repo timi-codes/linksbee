@@ -1,4 +1,4 @@
-name: Test the application
+name: Run docker build, prettier, linter and test
 
 on: [pull_request]
 
