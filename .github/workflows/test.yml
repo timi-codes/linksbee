@@ -1,4 +1,4 @@
-name: Run docker build, prettier, linter and test
+name: Run tests 
 
 on: [pull_request]
 
@@ -7,7 +7,7 @@ env:
 
 jobs:
   test:
-    name: Run tests
+    name: Run docker build, prettier, linter and test
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
