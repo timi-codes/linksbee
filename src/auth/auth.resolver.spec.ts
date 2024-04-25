@@ -23,7 +23,7 @@ describe('UserResolver', () => {
         },
         {
           provide: getRepositoryToken(User),
-          useValue: {}
+          useValue: {},
         },
       ],
     }).compile();

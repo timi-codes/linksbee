@@ -8,10 +8,10 @@ import { Request } from 'express';
 export class LinkController {
   constructor(
     private readonly linkService: LinkService,
-    @InjectQueue('analytics') private analyticsQueue: Queue
-  ) { }
+    @InjectQueue('analytics') private analyticsQueue: Queue,
+  ) {}
 
-  @Get(":id([a-zA-Z]{7})")
+  @Get(':id([a-zA-Z]{7})')
   @Redirect()
   async redirect(@Param('id') id: string, @Req() request: Request) {
     const { original_url } = await this.linkService.redirect(id);
@@ -22,6 +22,6 @@ export class LinkController {
       ip: request.ip,
       date: new Date(),
     });
-    return { url:  original_url }
+    return { url: original_url };
   }
 }

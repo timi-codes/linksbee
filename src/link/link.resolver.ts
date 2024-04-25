@@ -23,6 +23,6 @@ export class LinkResolver {
   @UseGuards(AuthGuard, OwnerGuard)
   @Query('analytics')
   getAnalytics(@Args('bee_id') id: string) {
-    return this.linkService.analytics(id)
+    return this.linkService.analytics(id);
   }
 }

@@ -18,7 +18,9 @@ import { Analytics, AnalyticsSchema } from './analytics/analytics.schema';
       name: 'analytics',
     }),
     HttpModule,
-    MongooseModule.forFeature([{ name: Analytics.name, schema: AnalyticsSchema }])
+    MongooseModule.forFeature([
+      { name: Analytics.name, schema: AnalyticsSchema },
+    ]),
   ],
   providers: [LinkResolver, LinkService, AnalyticsConsumer],
 })

@@ -11,14 +11,14 @@ export class LinkService {
   constructor(
     @InjectRepository(Link)
     private readonly linkRepository: Repository<Link>,
-    @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>
-  ) { }
-  
+    @InjectModel(Analytics.name) private analyticsModel: Model<Analytics>,
+  ) {}
+
   async shorten(url: string): Promise<Link> {
     const existingLink = await this.linkRepository.findOne({
       where: {
-        original_url: url
-      }
+        original_url: url,
+      },
     });
     if (existingLink) return existingLink;
 
@@ -29,8 +29,8 @@ export class LinkService {
   async redirect(id: string): Promise<Link> {
     const existingLink = await this.linkRepository.findOne({
       where: {
-        bee_id: id
-      }
+        bee_id: id,
+      },
     });
     if (!existingLink) throw new NotFoundException('Link not found');
 
@@ -40,111 +40,113 @@ export class LinkService {
   async findByUser(user_id: string): Promise<Link[]> {
     return this.linkRepository.find({
       where: {
-        user: Equal(user_id)
-      }
+        user: Equal(user_id),
+      },
     });
   }
 
-  async analytics(id: string): Promise<any> { 
+  async analytics(id: string): Promise<any> {
     const docs = await this.analyticsModel.aggregate([
       {
         $match: {
-          bee_id: id
-        }
+          bee_id: id,
+        },
       },
       {
         $facet: {
           browser: [
             {
               $group: {
-                _id: "$browser",
-                count: { $sum: 1 }
-              }
+                _id: '$browser',
+                count: { $sum: 1 },
+              },
             },
             {
               $project: {
-                label: "$_id",
-                value: "$count",
-                _id: 0
-              }
-            }
+                label: '$_id',
+                value: '$count',
+                _id: 0,
+              },
+            },
           ],
           os: [
             {
               $group: {
-                _id: "$os",
-                count: { $sum: 1 }
-              }
+                _id: '$os',
+                count: { $sum: 1 },
+              },
             },
             {
               $project: {
-                label: "$_id",
-                value: "$count"
-              }
-            }
+                label: '$_id',
+                value: '$count',
+              },
+            },
           ],
           country: [
             {
               $group: {
-                _id: "$country.name",
-                count: { $sum: 1 }
-              }
+                _id: '$country.name',
+                count: { $sum: 1 },
+              },
             },
             {
               $project: {
-                label: "$_id",
-                value: "$count"
-              }
-            }
+                label: '$_id',
+                value: '$count',
+              },
+            },
           ],
           date: [
             {
               $group: {
                 _id: {
                   $dateTrunc: {
-                    date: "$date", unit: "hour", binSize: 24
-                  }
+                    date: '$date',
+                    unit: 'hour',
+                    binSize: 24,
+                  },
                 },
-                count: { $sum: 1 }
-              }
+                count: { $sum: 1 },
+              },
             },
             {
               $project: {
-                label: "$_id",
-                value: "$count",
-                _id: 0
-              }
-            }
+                label: '$_id',
+                value: '$count',
+                _id: 0,
+              },
+            },
           ],
           total_clicks: [
             {
-              $count: "clicks",
+              $count: 'clicks',
             },
-          ]
-        }
+          ],
+        },
       },
       {
         $project: {
           browser: 1,
           country: 1,
-          os: 1, 
-          date: 1, 
-           total_clicks: { $arrayElemAt: ["$total_clicks.clicks", 0]  }
-        }
-      }
-    ])
-    return { ...docs[0] }
+          os: 1,
+          date: 1,
+          total_clicks: { $arrayElemAt: ['$total_clicks.clicks', 0] },
+        },
+      },
+    ]);
+    return { ...docs[0] };
   }
 
   async findOne(id: string): Promise<Link> {
     return this.linkRepository.findOne({
       where: {
-        bee_id: id
-      }
+        bee_id: id,
+      },
     });
   }
 
   async updateOne(id: string, data: Partial<Link>): Promise<number> {
-    return (await this.linkRepository.update(id, {...data})).affected
+    return (await this.linkRepository.update(id, { ...data })).affected;
   }
 }

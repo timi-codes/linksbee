@@ -14,7 +14,7 @@ describe('LinkService', () => {
         LinkService,
         {
           provide: getRepositoryToken(Link),
-          useValue: {}
+          useValue: {},
         },
         {
           provide: getModelToken(Analytics.name),

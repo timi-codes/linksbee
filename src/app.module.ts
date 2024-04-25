@@ -1,4 +1,4 @@
-import { join } from 'path'; 
+import { join } from 'path';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -39,7 +39,7 @@ import config from 'src/config';
     UserModule,
     AuthModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      path: "/playground",
+      path: '/playground',
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
       playground: false,
@@ -47,7 +47,7 @@ import config from 'src/config';
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
       },
-      context: ({ req, res }) => ({ req, res })
+      context: ({ req, res }) => ({ req, res }),
     }),
     LinkModule,
   ],
@@ -55,5 +55,3 @@ import config from 'src/config';
   providers: [AppService],
 })
 export class AppModule {}
-
-

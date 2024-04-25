@@ -8,7 +8,6 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
-
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
@@ -16,7 +15,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const gqlCtx = GqlExecutionContext.create(context);
     const request = gqlCtx.getContext().req;
-  
+
     const token = this.extractTokenFromCookie(request);
     if (!token) throw new UnauthorizedException();
     try {
@@ -28,8 +27,8 @@ export class AuthGuard implements CanActivate {
     return true;
   }
 
-    private extractTokenFromCookie(request: Request): string | undefined {
-    const [type, token] = request.cookies["Authorization"]?.split(' ') ?? [];
+  private extractTokenFromCookie(request: Request): string | undefined {
+    const [type, token] = request.cookies['Authorization']?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }
