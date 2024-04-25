@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { LinkModule } from './link/link.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { HealthModule } from './health/health.module';
 import config from 'src/config';
 
 @Module({
@@ -50,6 +51,7 @@ import config from 'src/config';
       context: ({ req, res }) => ({ req, res }),
     }),
     LinkModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
