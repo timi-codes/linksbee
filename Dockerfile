@@ -16,7 +16,7 @@ RUN yarn run build
 USER node
 
 # Running the application:
-FROM gcr.io/distroless/nodejs:16 AS run
+FROM node:18-alpine AS run
 WORKDIR /user/src/app
 
 COPY --from=base /user/src/app/node_modules ./node_modules
