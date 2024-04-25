@@ -8,6 +8,7 @@ RUN yarn install --production
 COPY src ./src
 COPY tsconfig.json ./tsconfig.json
 COPY tsconfig.build.json ./tsconfig.build.json
+COPY nest-cli.json ./nest-cli.json
 
 # Creating a build:
 FROM --platform=linux/amd64 node:18-alpine as create-build
