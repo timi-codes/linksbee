@@ -1,3 +1,4 @@
+# Base: install dependencies
 FROM --platform=linux/amd64 node:18-alpine as base
 
 WORKDIR /user/src/app
