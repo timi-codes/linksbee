@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { AuthInput } from './dto/auth.input';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './auth.guard';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Resolver('Auth')
 export class AuthResolver {

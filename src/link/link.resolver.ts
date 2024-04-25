@@ -2,8 +2,8 @@ import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
 import { LinkService } from './link.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../auth/auth.guard';
-import { OwnerGuard } from 'src/auth/owner.guard';
-import { User } from 'src/user/entities/user.entity';
+import { OwnerGuard } from '../auth/owner.guard';
+import { User } from '../user/entities/user.entity';
 
 @Resolver('Link')
 export class LinkResolver {

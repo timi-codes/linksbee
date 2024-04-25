@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn, BeforeInsert, ManyToOne, JoinColumn } from 'typeorm';
-import { generateShortURL } from 'src/utils';
-import { User } from 'src/user/entities/user.entity';
+import { generateShortURL } from '../../utils';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Link {

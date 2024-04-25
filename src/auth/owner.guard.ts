@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { LinkService } from 'src/link/link.service';
+import { LinkService } from '../link/link.service';
 
 
 @Injectable()
