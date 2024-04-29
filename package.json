@@ -2,5 +2,20 @@
   "name": "links-bee-monorepo",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "turbo": "1.10.12"
+  }
 }
