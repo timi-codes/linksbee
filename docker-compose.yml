@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:15.1
     networks:
-      - backend_linkbee_default
+      - linkbee_default
     volumes:
       - ./data/postgres:/data/postgres
     env_file:
@@ -14,7 +14,7 @@ services:
   mongo:
     image: mongo
     networks:
-      - backend_linkbee_default
+      - linkbee_default
     volumes:
       - ./data/mongo:/data/mongo
     env_file:
@@ -39,8 +39,8 @@ services:
       - postgres
       - mongo
     networks:
-      -  backend_linkbee_default
+      -  linkbee_default
 
 networks:
-  backend_linkbee_default:
+  linkbee_default:
     driver: bridge
