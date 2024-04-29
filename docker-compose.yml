@@ -6,8 +6,10 @@ services:
       - linkbee_default
     volumes:
       - ./data/postgres:/data/postgres
-    env_file:
-      - docker.env
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=linkbee
     ports:
       - '5433:5432'
   
@@ -17,21 +19,22 @@ services:
       - linkbee_default
     volumes:
       - ./data/mongo:/data/mongo
-    env_file:
-      - docker.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=linkbee
     ports:
       - '27017:27017'
     
-  linkbee-be:
+  api:
     build:
       context: .
       target: base
     command: npm run start:dev
     volumes:
       - ./src:/user/src/app/src
-    image: linkbee-be
+    image: linkbee-api
     env_file:
-      - .env.local
+      - apps/api/.env.local
     ports:
       - "4000:4000"
       - "9229:9229"
