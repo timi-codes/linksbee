@@ -13,7 +13,7 @@ import { LinkModule } from './link/link.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { HealthModule } from './health/health.module';
-import config from 'src/config';
+import config from '../src/config';
 
 @Module({
   imports: [

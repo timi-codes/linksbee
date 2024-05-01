@@ -1,5 +1,16 @@
 version: "3"
 services:
+  reverse-proxy:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - 80:80
+    depends_on:
+      - postgres
+    volumes:
+      - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   postgres:
     image: postgres:15.1
     networks:
@@ -12,7 +23,6 @@ services:
       - POSTGRES_DB=linkbee
     ports:
       - '5433:5432'
-  
   mongo:
     image: mongo
     networks:
@@ -25,10 +35,10 @@ services:
     ports:
       - '27017:27017'
     
-  api:
+  linkbee-api:
     build:
-      context: .
-      target: base
+      context: ./apps/api
+      target: builder
     command: npm run start:dev
     volumes:
       - ./src:/user/src/app/src
