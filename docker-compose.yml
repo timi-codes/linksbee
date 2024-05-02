@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   reverse-proxy:
     image: nginx:latest
@@ -7,6 +7,7 @@ services:
       - 80:80
     depends_on:
       - postgres
+      - mongo
     volumes:
       - ./packages/config/nginx.conf:/etc/nginx/nginx.conf
     extra_hosts:
@@ -23,6 +24,7 @@ services:
       - POSTGRES_DB=linkbee
     ports:
       - '5433:5432'
+
   mongo:
     image: mongo
     networks:
@@ -34,25 +36,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=linkbee
     ports:
       - '27017:27017'
-    
-  linkbee-api:
-    build:
-      context: ./apps/api
-      target: builder
-    command: npm run start:dev
-    volumes:
-      - ./src:/user/src/app/src
-    image: linkbee-api
-    env_file:
-      - apps/api/.env.local
-    ports:
-      - "4000:4000"
-      - "9229:9229"
-    depends_on:
-      - postgres
-      - mongo
-    networks:
-      -  linkbee_default
 
 networks:
   linkbee_default:
